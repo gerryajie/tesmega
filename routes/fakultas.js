@@ -13,3 +13,5 @@ router.get("/all", getAllFakultas);
 router.post("/create", createFakultas);
 router.patch("/update", updateFakultas);
 router.delete("/destroy", deleteFakultas);
+
+module.exports = router;

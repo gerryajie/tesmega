@@ -113,9 +113,9 @@ class Mahasiswa {
         where: { id: newData.id },
       });
 
-      res.status(201).json({ data, message: "Sukses Buat Data" });
+      res.status(201).json({ data, message: "Sukses Buat Data Mahasiswa" });
     } catch (error) {
-      console.log(error);
+      console.log(error, "errorrrrrr ini");
       next(error);
     }
   }

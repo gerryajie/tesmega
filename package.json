@@ -17,6 +17,6 @@
     "dev": "NODE_ENV=development npx nodemon app.js",
     "test": "set NODE_ENV=test&& jest --detectOpenHandles --forceExit --coverage"
   },
-  "author": "syafa",
+  "author": "Gerry Pratama",
   "license": "ISC"
 }

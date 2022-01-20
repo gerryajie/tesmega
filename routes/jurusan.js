@@ -9,7 +9,7 @@ const {
 
 const router = express.Router();
 
-router.get("/", getAllJurusan);
+router.get("/all", getAllJurusan);
 router.post("/make", createJurusan);
 router.patch("/update", updateJurusan);
 router.delete("/delete", deleteJurusan);

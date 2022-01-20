@@ -45,9 +45,6 @@ class Mahasiswa {
       const { limit, offset } = pagination(page, size);
 
       let data = await mahasiswas.findAndCountAll({
-        where: { id_jurusan: req.params.id },
-        attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
-
         include: [{ model: jurusans, attributes: ["name"] }],
         limit,
         offset,
@@ -72,15 +69,20 @@ class Mahasiswa {
       const { page, size } = req.query;
       const { limit, offset } = pagination(page, size);
 
-      let data = await kelass.findAndCountAll({
-        where: { id_mahasiswa: req.params.id },
-        attributes: {
-          exclude: ["name", "id", "createdAt", "updatedAt", "deletedAt"],
-        },
+      let data = await mahasiswas.findAndCountAll({
+        where: { id: req.params.id },
 
         include: [
-          { model: mataKuliahs, attributes: ["matKul"] },
-          { model: mahasiswas, attributes: ["name"] },
+          {
+            model: kelass,
+            attributes: ["ruangan"],
+            include: [
+              {
+                model: mataKuliahs,
+                attributes: ["matKul"],
+              },
+            ],
+          },
         ],
         limit,
         offset,

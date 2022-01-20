@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   kelass.init(
     {
-      name: DataTypes.STRING,
+      ruangan: DataTypes.STRING,
     },
     {
       sequelize,

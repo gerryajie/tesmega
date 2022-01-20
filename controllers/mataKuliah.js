@@ -1,9 +1,9 @@
-const { mataKuliah } = require("../models");
+const { mataKuliahs, mahasiswas, kelass } = require("../models");
 
 class MataKuliah {
   async getAllMataKuliah(req, res, next) {
     try {
-      let data = await mataKuliah.findAll({
+      let data = await mataKuliahs.findAll({
         atributes: {
           exclude: ["createdAt", "updatedAt", "deletedAt"],
         },
@@ -26,10 +26,44 @@ class MataKuliah {
     }
   }
 
+  async getAllMataKuliahMahasiswa(req, res, next) {
+    try {
+      let data = await mataKuliahs.findAll({
+        include: [
+          {
+            model: kelass,
+            attributes: ["ruangan"],
+            include: [
+              {
+                model: mahasiswas,
+                attributes: ["name"],
+              },
+            ],
+          },
+        ],
+      });
+
+      if (data.length === 0) {
+        return next({
+          message: "Tidak ada mata kuliah",
+          statusCode: 404,
+        });
+      }
+      res.status(200).json({
+        status: 200,
+        success: true,
+        message: `Success get all mataKuliah`,
+        data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async createMataKuliah(req, res, next) {
     try {
-      const insertData = await mataKuliah.create(req.body);
-      const data = await mataKuliah.findOne({
+      const insertData = await mataKuliahs.create(req.body);
+      const data = await mataKuliahs.findOne({
         where: { id: insertData.id },
       });
 
@@ -45,31 +79,25 @@ class MataKuliah {
   }
   async updateMataKuliah(req, res, next) {
     try {
-      const insertData = await mataKuliah.update(req.body);
+      const insertData = await mataKuliahs.update(req.body);
       const data = await mataKuliah.findOne({
         where: { id: dataMataKuliah.id },
       });
       if (data === null) {
         return res.status(404).json({ errors: "Mata Kuliah tidak ditemukan" });
       }
-      await mataKuliah.update(req.body, {
+      await mataKuliahs.update(req.body, {
         where: {
           id: req.params.id,
         },
       });
 
-      const listMataKuliah = await mataKuliah.findOne({
+      const listMataKuliah = await mataKuliahs.findOne({
         where: {
           id: req.params.id,
         },
         atributes: {
-          exclude: [
-            "id_jurusan",
-            "id_fakultas",
-            "createdAt",
-            "updatedAt",
-            "deletedAt",
-          ],
+          exclude: ["createdAt", "updatedAt", "deletedAt"],
         },
         include: [
           {
@@ -100,8 +128,8 @@ class MataKuliah {
   }
   async deleteMataKuliah(req, res, next) {
     try {
-      const data = await mataKuliah.findOne({ where: { id } });
-      const currentMataKuliah = await mataKuliah.findOne({
+      const data = await mataKuliahs.findOne({ where: { id } });
+      const currentMataKuliah = await mataKuliahs.findOne({
         where: {
           id: req.params.id,
         },
@@ -111,7 +139,7 @@ class MataKuliah {
           .status(404)
           .json({ status: 500, message: "Mata Kuliah tidak ditemukan!" });
       }
-      await mataKuliah.destroy({ where: { id: req.params.id } });
+      await mataKuliahs.destroy({ where: { id: req.params.id } });
 
       res.status(200).json({
         status: 200,

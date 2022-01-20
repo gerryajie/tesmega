@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 
 router.get("/all", getAllMahasiswa);
-router.get("/:id", getAllMahasiswaAndJurusan);
+router.get("/jurusan", getAllMahasiswaAndJurusan);
 router.get("/matkul/:id", getAllMahasiswaAndMatKul);
 router.put("/update/:id", updateMahasiswa);
 router.post("/", createMahasiswa);

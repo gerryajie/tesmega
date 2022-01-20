@@ -3,16 +3,15 @@ const { jurusans, mahasiswas } = require("../models");
 class Jurusan {
   async getAllJurusan(req, res, next) {
     try {
-      let data = await jurusans.findAll({
+      let data = await jurusans.findOne({
+        where: { id: req.params.id },
         attributes: ["name", "createdAt", "updatedAt", "deletedAt"],
         include: [
           {
             model: mahasiswas,
-            attributes: ["id_mahasiswa"],
+            attributes: ["name"],
           },
         ],
-        where: { id_jurusan: req.query.id },
-        order: [["id", "desc"]],
       });
 
       if (data.length === 0) {
@@ -28,6 +27,7 @@ class Jurusan {
         data,
       });
     } catch (error) {
+      console.log(error, "ini error");
       next(error);
     }
   }

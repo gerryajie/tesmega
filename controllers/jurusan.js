@@ -1,13 +1,13 @@
-const { jurusan, mahasiswa } = require("../models");
+const { jurusans, mahasiswas } = require("../models");
 
 class Jurusan {
   async getAllJurusan(req, res, next) {
     try {
-      let data = await jurusan.findAll({
-        attributes: ["jurusan", "createdAt", "updatedAt", "deletedAt"],
+      let data = await jurusans.findAll({
+        attributes: ["name", "createdAt", "updatedAt", "deletedAt"],
         include: [
           {
-            model: mahasiswa,
+            model: mahasiswas,
             attributes: ["id_mahasiswa"],
           },
         ],
@@ -34,8 +34,8 @@ class Jurusan {
 
   async createJurusan(req, res, next) {
     try {
-      const insertData = await jurusan.create(req.body);
-      const data = await jurusan.findOne({
+      const insertData = await jurusans.create(req.body);
+      const data = await jurusans.findOne({
         where: { id: insertData.id },
       });
 
@@ -51,19 +51,19 @@ class Jurusan {
   }
   async updateJurusan(req, res, next) {
     try {
-      const data = await jurusan.findOne({
-        where: { id_jurusan },
+      const data = await jurusans.findOne({
+        where: { id },
       });
       if (data === null) {
         return res.status(404).json({ errors: "Jurusan tidak ditemukan" });
       }
-      await jurusan.update(req.body, {
+      await jurusans.update(req.body, {
         where: {
           id: req.params.id,
         },
       });
 
-      const listJurusan = await jurusan.findOne({
+      const listJurusan = await jurusans.findOne({
         where: {
           id: req.params.id,
         },
@@ -72,12 +72,8 @@ class Jurusan {
         },
         include: [
           {
-            model: nama,
+            model: mahasiswas,
             atributes: { exclude: ["createdAt", "updatedAt"] },
-          },
-          {
-            model: id_mahasiswa,
-            atributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
           },
         ],
       });
@@ -99,8 +95,8 @@ class Jurusan {
   }
   async deleteJurusan(req, res, next) {
     try {
-      const data = await jurusan.findOne({ where: { id } });
-      const currentJurusan = await jurusan.findOne({
+      const data = await jurusans.findOne({ where: { id } });
+      const currentJurusan = await jurusans.findOne({
         where: {
           id: req.params.id,
         },

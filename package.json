@@ -1,5 +1,9 @@
 {
-  "name": "testertulis",
+  "name": "tesmega",
+  "engines": {
+    "node": "17.3.0",
+    "npm": "8.3.0"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,13 +12,13 @@
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
     "pg": "^8.7.1",
+    "postgres": "^1.0.2",
     "sequelize": "^6.13.0",
     "sequelize-cli": "^6.3.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "start": "node app.js",
-    "dev": "NODE_ENV=development npx nodemon app.js",
+    "start": "node index.js",
+    "dev": "NODE_ENV=development npx nodemon index.js",
     "test": "set NODE_ENV=test&& jest --detectOpenHandles --forceExit --coverage"
   },
   "author": "Gerry Pratama",
